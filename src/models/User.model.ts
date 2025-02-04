@@ -3,6 +3,7 @@ import mongoose, {Document, Schema
 } from 'mongoose'
 
 export interface IUserSchema extends Document {
+	_id: mongoose.Types.ObjectId
 	login: string
 	password: string
 	role: number
@@ -13,6 +14,7 @@ const UserSchema: Schema<IUserSchema> = new Schema(
 		login: {
 			type: String,
 			required: [true, 'Login is required'],
+			unique: true
 		},
 		password: {
 			type: String,
