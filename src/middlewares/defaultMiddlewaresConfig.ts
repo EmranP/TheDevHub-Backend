@@ -1,6 +1,6 @@
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import express, { Express, NextFunction, Request, Response } from 'express'
+import express, { Express } from 'express'
 import helmet from 'helmet'
 
 export const defaultAppMiddleware = (
@@ -30,16 +30,4 @@ export const defaultAppMiddleware = (
 
 	// Парсинг cookie
 	app.use(cookieParser())
-
-	// Глобальный обработчик ошибок
-	app.use(
-		(err: Error, req: Request, res: Response, next: NextFunction): void => {
-			console.error(`[ERROR]: ${err.message}`)
-
-			res.status(500).json({
-				error: 'Internal Server Error',
-				message: err.message,
-			})
-		}
-	)
 }

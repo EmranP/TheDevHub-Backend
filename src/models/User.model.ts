@@ -3,10 +3,9 @@ import mongoose, {Document, Schema
 } from 'mongoose'
 
 export interface IUserSchema extends Document {
-	_id: mongoose.Types.ObjectId
 	login: string
 	password: string
-	role: number
+	role: ROLE
 }
 
 const UserSchema: Schema<IUserSchema> = new Schema(

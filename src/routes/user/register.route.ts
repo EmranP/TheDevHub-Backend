@@ -1,6 +1,6 @@
-import { register } from "controllers/auth/register.controller";
+import { registerUser } from "controllers/user/register.controller";
 import { Router, Request, Response } from "express";
-import { IUserApiData, mappingUser } from "utils/mapping.util";
+import { mappingUser } from "utils/mapping.util";
 
 interface IRequestBody extends Request {
   body: {
@@ -14,9 +14,11 @@ const routeAuthRegister = Router()
 routeAuthRegister.post('/register', async (req:IRequestBody, res:Response):Promise<void> => {
   try {
     const {login, password} = req.body
-    const user = await register(login, password)
+    const {user, token} = await registerUser(login, password)
 
-    res.status(201).send({error: null, user: mappingUser(user)})
+    res.status(201)
+        .cookie('token', token, {httpOnly: true})
+        .send({error: null, user: mappingUser(user)})
   } catch (e) {
     res.status(500).send({error: e instanceof Error ? e.message : 'Unknown error'})
   }
