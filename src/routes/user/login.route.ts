@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import {  mappingUser } from "utils/mapping.util";
+import {  mappingUser } from "utils/mappingUser.util";
 import { loginUser } from "controllers/user/login.controller";
 import { IUserSchema } from "models/User.model";
 

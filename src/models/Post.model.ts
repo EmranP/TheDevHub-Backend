@@ -1,27 +1,26 @@
-// import { ROLE } from 'constants/roles'
 import mongoose, {Document, Schema} from 'mongoose'
 import validator from 'validator'
 
 export interface IPostSchema extends Document {
 	title: string
-	image: string
+	imageUrl: string
 	content: string
-	author: typeof Schema.Types.ObjectId
+	author: mongoose.Types.ObjectId
+	createdAt: Date,
+	updatedAt: Date
 }
 
-const PostSchema: Schema<IPostSchema> = new Schema({
+const PostSchema = new Schema<IPostSchema>({
 	title: {
 		type: String,
 		required: [true, 'Title is required'],
 		trim: true,
+		index: true,
 	},
-	image: {
+	imageUrl: {
 		type: String,
 		required: [true, 'Image URL is required'],
-		validate: {
-			validator: (str:string) => validator.isURL(str),
-			message: 'Image should be valid url',
-		},
+		validate: [validator.isURL, 'Image should be a valid URL']
 	},
 	content: {
 		type: String,
@@ -30,7 +29,7 @@ const PostSchema: Schema<IPostSchema> = new Schema({
 	},
 	author: [{
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
+      ref: 'Comment',
     }],
 }, {timestamps: true})
 

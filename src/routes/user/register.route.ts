@@ -1,6 +1,6 @@
 import { registerUser } from "controllers/user/register.controller";
 import { Router, Request, Response } from "express";
-import { mappingUser } from "utils/mapping.util";
+import { mappingUser } from "utils/mappingUser.util";
 
 interface IRequestBody extends Request {
   body: {

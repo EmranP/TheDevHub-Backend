@@ -16,10 +16,10 @@ export const registerUser =  async (login:string, pass:string):Promise<IAuthRegi
   const passwordHash = await bcrypt.hash(pass, 10)
 
   const userData: IUserSchema = await UserModel.create({login, pass: passwordHash})
-  const token = new Token().generateToken({id: String(userData._id)})
+  const token = new Token().generateToken({id: String(userData.id)})
 
   const user = {
-    id: userData._id.toString(),
+    id: userData.id.toString(),
     login: userData.login,
     role: userData.role || 2
   }
