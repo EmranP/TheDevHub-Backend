@@ -21,6 +21,8 @@ import routePostGet from 'routes/post/getPost.route'
 import routePostAdd from 'routes/post/addPost.route'
 import routePostEdit from 'routes/post/editPost.route'
 import routePostRemove from 'routes/post/deletePost.route'
+import routeCommentAdd from 'routes/comment/addComment.route'
+import routeCommentRemove from 'routes/comment/deleteComment.route'
 
 // ! Todo: Controller & Route Comment
 
@@ -42,7 +44,7 @@ app.use('/api/auth', routeAuthLogout)
 // Post
 app.use('/api/post', routePostGet)
 
-// Middleware Auth
+// Middleware Auth ===================
 app.use(authenticated)
 
 // Users
@@ -58,6 +60,9 @@ app.use('/api/post', routePostAdd)
 app.use('/api/post', routePostEdit)
 app.use('/api/post', routePostRemove)
 
+// Comments
+app.use('/api/post', routeCommentAdd)
+app.use('/api/post', routeCommentRemove)
 
 // Глобальный обработчик ошибок
 app.use((err: Error, req: Request, res: Response, next:NextFunction): void => {

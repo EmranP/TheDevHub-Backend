@@ -1,11 +1,12 @@
 import mongoose, {Document, Schema} from 'mongoose'
 import validator from 'validator'
+import { ICommentSchema } from './Comment.model'
 
 export interface IPostSchema extends Document {
 	title: string
 	imageUrl: string
 	content: string
-	author: mongoose.Types.ObjectId
+	comments: (mongoose.Types.ObjectId | ICommentSchema)[]
 	createdAt: Date,
 	updatedAt: Date
 }
@@ -27,7 +28,7 @@ const PostSchema = new Schema<IPostSchema>({
 		required: true,
 		trim: true
 	},
-	author: [{
+	comments: [{
       type: Schema.Types.ObjectId,
       ref: 'Comment',
     }],

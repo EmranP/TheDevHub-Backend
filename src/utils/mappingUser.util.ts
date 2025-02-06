@@ -1,17 +1,12 @@
 import { ROLE } from "constants/roles"
 import { IUserSchema } from "models/User.model"
 
-export interface IUserApiData {
-  id: string
-  login: string
-  role: ROLE
-}
-
-export interface IMappingUser extends Omit<IUserApiData, 'role'> {
+export interface IUserDTO extends Omit<IUserSchema, 'role'> {
   roleId: ROLE
 }
 
-export const mappingUser = (user: IUserSchema | IUserApiData):IMappingUser => ({
+
+export const mappingUser = (user: Partial<IUserSchema>): Partial<IUserDTO> => ({
   id: user.id,
   login: user.login,
   roleId: user.role

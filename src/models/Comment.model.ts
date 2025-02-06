@@ -1,10 +1,11 @@
-import { ROLE } from 'constants/roles'
-import mongoose, {Document, mongo, Schema
-} from 'mongoose'
+import mongoose, {Document, Schema} from 'mongoose'
+import { IUserSchema } from './User.model'
 
 export interface ICommentSchema extends Document {
+  _id: string
   content:  string
-  author:   typeof Schema.Types.ObjectId
+  author:   typeof Schema.Types.ObjectId | Pick<IUserSchema, 'login'>
+  createdAt: Date
 }
 
 const CommentSchema: Schema<ICommentSchema> = new Schema(
