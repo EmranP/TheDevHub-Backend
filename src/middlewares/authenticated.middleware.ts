@@ -12,7 +12,7 @@ export const authenticated = async (req:Request, res:Response, next:NextFunction
 
   const tokenData = new Token().verify(token)
 
-  if (!tokenData || tokenData.id) {
+  if (!tokenData || !tokenData.id) {
     res.status(401).json({ error: "Invalid token" })
     return
   }

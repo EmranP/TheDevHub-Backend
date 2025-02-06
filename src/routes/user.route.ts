@@ -21,10 +21,8 @@ routeUsers.get('/', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, re
 
     res.status(200).send({data: users.map(mappingUser)})
   } catch (e) {
-    if (e instanceof Error) {
-      console.error("❌ Server Error:", e);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+    console.error("❌ Server Error:", e);
+    res.status(500).json({ error: "Internal Server Error" });
 
     return
   }
@@ -53,10 +51,8 @@ routeUsers.patch('/edit/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:R
 
     res.status(201).send({updateData: mappingUser(newUser)})
   } catch (e) {
-     if (e instanceof Error) {
-      console.error("❌ Server Error:", e);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+    console.error("❌ Server Error:", e);
+    res.status(500).json({ error: "Internal Server Error" });
 
     return
   }
@@ -76,10 +72,10 @@ routeUsers.delete('/remove/:id', authenticated, hasRole([ROLE.ADMIN]), async (re
 
     res.status(201).send({error: null})
   } catch (e) {
-    if (e instanceof Error) {
-      console.error("❌ Server Error:", e);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+    console.error("❌ Server Error:", e);
+    res.status(500).json({ error: "Internal Server Error" });
+
+    return
   }
 })
 

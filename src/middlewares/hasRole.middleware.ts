@@ -16,7 +16,7 @@ export const hasRole = (roles: ROLE[]) => {
     }
 
     if (!roles.includes(req.user.role)) {
-      res.status(403).send({error: 'Access denid'})
+      res.status(403).send({error: 'Access denied'})
 
       return
     }
