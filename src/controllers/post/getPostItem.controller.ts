@@ -1,3 +1,10 @@
 import { IPostSchema, PostModel } from "models/Post.model";
 
-export const getPostItem = (id: string):Promise<IPostSchema | null> => PostModel.findById(id)
+export const getPostItem = (id: string):Promise<IPostSchema | null> =>
+  PostModel.findById(id)
+    .populate(
+      {
+        path: 'comments',
+        populate: 'author'
+      }
+    )

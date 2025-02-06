@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt'
 import { IUserSchema, UserModel } from 'models/User.model'
-import { IUserApiData } from 'utils/mapping.util'
 import { Token } from 'utils/token.util'
 
 interface IAuthRegister {
-  user: IUserApiData,
+  user: Partial<IUserSchema>,
   token: string
 }
 

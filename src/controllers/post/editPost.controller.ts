@@ -10,5 +10,17 @@ export const updatePost = async (
     throw new Error('Post not found')
   }
 
-  return PostModel.findByIdAndUpdate(id, postData, { returnDocument: 'after' }).exec()
+  // Maybe post parmas should be change id
+  const updatedPost = await PostModel.findByIdAndUpdate(post, postData, { returnDocument: 'after' }).exec()
+
+  if (!updatedPost) {
+    throw new Error('the post is not updaed')
+  }
+
+  await updatedPost.populate({
+    path: 'comments',
+    populate: 'author'
+  })
+
+  return updatedPost
 }
