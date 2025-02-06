@@ -2,6 +2,8 @@ import { ROLE } from "constants/roles";
 import { addComment } from "controllers/comment/addComment.controller";
 import { removeComment } from "controllers/comment/deleteComment.controller";
 import { addPost } from "controllers/post/addPost.controller";
+import { deletePost } from "controllers/post/deletePost.controller";
+import { updatePost } from "controllers/post/editPost.controller";
 import { getPostItem } from "controllers/post/getPostItem.controller";
 import { getPosts } from "controllers/post/getPosts.controller";
 import { Router, Request, Response } from "express";
@@ -33,12 +35,10 @@ routePost.get('/', async (req:Request, res:Response):Promise<void> => {
 
     res.status(200).send({data: {lastPage, posts: posts.map(mapPost)}})
   } catch (e) {
-    if (e instanceof Error) {
       console.error("❌ Server Error:", e);
       res.status(500).json({ error: "Internal Server Error" });
-    }
 
-    return
+      return
   }
 })
 
@@ -57,12 +57,10 @@ routePost.get('/:id', async (req:Request, res:Response):Promise<void> => {
 
     res.status(200).send({data: mapPost(post)})
   } catch (e) {
-    if (e instanceof Error) {
       console.error("❌ Server Error:", e);
       res.status(500).json({ error: "Internal Server Error" });
-    }
 
-    return
+      return
   }
 })
 
@@ -95,12 +93,10 @@ routePost.post(
 
     res.status(201).send({data: mapPost(newPost)})
   } catch (e) {
-    if (e instanceof Error) {
       console.error("❌ Server Error:", e);
       res.status(500).json({ error: "Internal Server Error" });
-    }
 
-    return
+      return
   }
 })
 
@@ -136,12 +132,10 @@ routePost.patch('/:id', authenticated, hasRole([ROLE.ADMIN]), async (
 
     res.status(200).send({data: mapPost(updatedPost )})
   } catch (e) {
-      if (e instanceof Error) {
       console.error("❌ Server Error:", e);
       res.status(500).json({ error: "Internal Server Error" });
-    }
 
-    return
+      return
   }
 })
 
@@ -169,12 +163,10 @@ routePost.delete('/:id', authenticated, hasRole([ROLE.ADMIN]), async (
 
     res.status(200).send({error: null})
   } catch (e) {
-    if (e instanceof Error) {
       console.error("❌ Server Error:", e);
       res.status(500).json({ error: "Internal Server Error" });
-    }
 
-    return
+      return
   }
 })
 
@@ -208,12 +200,10 @@ routePost.post('/:id/comments', authenticated, async (
     }
     res.status(201).send({data: mapComment(newComment)})
   } catch (e) {
-    if (e instanceof Error) {
       console.error("❌ Server Error:", e);
       res.status(500).json({ error: "Internal Server Error" });
-    }
 
-    return
+      return
   }
 })
 
@@ -235,10 +225,8 @@ routePost.delete('/:postId/comments/:commentId',
 
       res.status(201).send({error: null})
     } catch (e) {
-      if (e instanceof Error) {
-        console.error("❌ Server Error:", e);
-        res.status(500).json({ error: "Internal Server Error" });
-      }
+      console.error("❌ Server Error:", e);
+      res.status(500).json({ error: "Internal Server Error" });
 
       return
     }
