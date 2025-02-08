@@ -17,7 +17,7 @@ export const authenticated = async (req:Request, res:Response, next:NextFunction
     return
   }
 
-  const user = await UserModel.findById(tokenData.id).lean()
+  const user = await UserModel.findOne({ _id: tokenData.id })
 
   if (!user) {
     res.status(402).json({error: 'Authenticated user not found'})
@@ -26,5 +26,6 @@ export const authenticated = async (req:Request, res:Response, next:NextFunction
   }
 
   req.user = user
+
   next()
 }

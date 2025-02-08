@@ -1,7 +1,6 @@
 import { loginUser } from "controllers/user/login.controller";
 import { registerUser } from "controllers/user/register.controller";
 import { Router, Request, Response } from "express";
-import { IUserSchema } from "models/User.model";
 import { mappingUser } from "utils/mappingUser.util";
 
 
@@ -18,12 +17,12 @@ interface IRequestBody extends Request {
 
 routeAuth.post('/register', async (req:IRequestBody, res:Response):Promise<void> => {
   try {
-    const {login, password} = req.body
-    const {user, token} = await registerUser(login, password)
+    const { login, password } = req.body
+    const { user, token } = await registerUser(login, password)
 
     res.status(201)
-        .cookie('token', token, {httpOnly: true})
-        .send({error: null, user: mappingUser(user)})
+        .cookie('token', token, { httpOnly: true })
+        .send({ error: null, user: mappingUser(user) })
   } catch (e) {
     res.status(500).send({error: e instanceof Error ? e.message : 'Unknown error'})
   }
@@ -33,11 +32,18 @@ routeAuth.post('/register', async (req:IRequestBody, res:Response):Promise<void>
 routeAuth.post('/login', async (req:IRequestBody, res:Response):Promise<void> => {
   try {
     const {login, password} = req.body
+
+    if (!login || !password) {
+      res.status(404).send({error: 'Login is not correct'})
+
+      return
+    }
+
     const {user, token} = await loginUser(login, password)
 
     res.status(201)
         .cookie('token', token, {httpOnly: true})
-        .send({error: null, user: mappingUser(user as IUserSchema)})
+        .send({error: null, user: mappingUser(user)})
   } catch (e) {
     res.status(500).send({error: e instanceof Error ? e.message : 'Unknown error'})
   }

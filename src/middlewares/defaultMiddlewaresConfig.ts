@@ -10,6 +10,9 @@ export const defaultAppMiddleware = (
 	// Устанавливаем HTTP заголовки для безопасности
 	app.use(helmet())
 
+	// Статичный файлы
+	app.use(expressInstance.static('../../../TheDevHub-Frontend/build'))
+
 	// Парсинг JSON
 	app.use(expressInstance.json())
 

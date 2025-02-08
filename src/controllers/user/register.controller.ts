@@ -7,15 +7,16 @@ interface IAuthRegister {
   token: string
 }
 
-export const registerUser =  async (login:string, pass:string):Promise<IAuthRegister> => {
-  if (!pass) {
-    throw new Error("Passwod is enity!")
+export const registerUser =  async (login:string, password:string):Promise<IAuthRegister> => {
+  if (!password) {
+    throw new Error('Login and Pass should be enity!')
   }
 
-  const passwordHash = await bcrypt.hash(pass, 10)
+  const passwordHash = await bcrypt.hash(password, 10)
 
-  const userData: IUserSchema = await UserModel.create({login, pass: passwordHash})
-  const token = new Token().generateToken({id: String(userData.id)})
+  const userData: IUserSchema = await UserModel.create({ login, password: passwordHash })
+  const token = new Token().generateToken({id: String(userData._id)})
+
 
   const user = {
     id: userData.id.toString(),
