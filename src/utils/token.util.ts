@@ -7,6 +7,7 @@ interface IGenerateTokenProps {
 export class Token {
   private sign: string = process.env.SECRET_KEY_JWT || ''
 
+
   generateToken(data:IGenerateTokenProps):string {
     if (!this.sign) {
       throw new Error('Secret key is missing')

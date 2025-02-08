@@ -9,22 +9,21 @@ export interface ILogin {
 }
 
 
-export const loginUser = async (login:string, pass:string):Promise<ILogin> => {
-  const user = await UserModel.findOne({ login }).lean()
+export const loginUser = async (login :string, password :string):Promise<ILogin> => {
+  const user = await UserModel.findOne({ login })
 
   if (!user) {
-    throw new Error('User not found')
+    throw new Error('User not found ((')
   }
 
-  const isPasswordMatch = await bcrypt.compare(pass, user.password)
+  const isPasswordMatch = await bcrypt.compare(password, user.password)
 
   if (!isPasswordMatch) {
-    throw new Error('Wrong is password')
+    throw new Error('Wrong password')
   }
 
-  const token = new Token().generateToken({id: String(user._id)})
+  const token = new Token().generateToken({id: user._id as string})
 
-  const {password, ...userWithPassword} = user
 
-  return { token, user: userWithPassword as ILogin['user'] }
+  return { token, user }
 }
