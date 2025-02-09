@@ -1,14 +1,11 @@
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express, { Express } from 'express'
-import helmet from 'helmet'
 
 export const defaultAppMiddleware = (
 	app: Express,
 	expressInstance: typeof express
 ): void => {
-	// Устанавливаем HTTP заголовки для безопасности
-	app.use(helmet())
 
 	// Статичный файлы
 	app.use(expressInstance.static('../../../TheDevHub-Frontend/build'))

@@ -4,7 +4,7 @@ import { ICommentSchema } from './Comment.model'
 
 export interface IPostSchema extends Document {
 	title: string
-	imageUrl: string
+	image: mongoose.SchemaDefinitionProperty<[string, boolean]>
 	content: string
 	comments: (mongoose.Types.ObjectId | ICommentSchema)[]
 	createdAt: Date,
@@ -18,10 +18,13 @@ const PostSchema = new Schema<IPostSchema>({
 		trim: true,
 		index: true,
 	},
-	imageUrl: {
+	image: {
 		type: String,
 		required: [true, 'Image URL is required'],
-		validate: [validator.isURL, 'Image should be a valid URL']
+		validate: {
+			validator: validator.isURL,
+			message: 'Image should be a valid url'
+		},
 	},
 	content: {
 		type: String,

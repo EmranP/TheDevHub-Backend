@@ -1,13 +1,13 @@
 import { ROLE } from "constants/roles";
 import { deleteUser } from "controllers/user/delete.controller";
 import { updateUser } from "controllers/user/edit.controller";
-import { getUsers } from "controllers/user/getUsersWithRoles.route";
+import { getRoles, getUsers } from "controllers/user/getUsersWithRoles.route";
 import { Router, Request, Response } from "express";
 import { authenticated } from "middlewares/authenticated.middleware";
 import { hasRole } from "middlewares/hasRole.middleware";
 import { mappingUser } from "utils/mappingUser.util";
 
-const routeUsers = Router()
+const routeUsers = Router({mergeParams: true})
 
 routeUsers.get('/', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, res:Response):Promise<void> => {
   try {
@@ -28,13 +28,35 @@ routeUsers.get('/', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, re
   }
 })
 
-routeUsers.patch('/edit/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, res:Response) => {
+routeUsers.get('/roles', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, res:Response):Promise<void> => {
+  try {
+    const roles = getRoles()
+
+    if (!roles) {
+      res.status(404).send({error: 'Roles data not found'})
+
+      return
+    }
+
+    res.status(200).send({dataRoles: roles})
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error("❌ Server Error:", e);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    return
+  }
+})
+
+
+routeUsers.patch('/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, res:Response) => {
   try {
     const {id} = req.params as {id: string}
     const {roleId} = req.body as {roleId:  number}
 
     if (!id || !roleId) {
-      res.status(404).send({error: 'Error'})
+      res.status(404).send({error: 'Error: Edit user not found'})
 
       return
     }
@@ -58,7 +80,7 @@ routeUsers.patch('/edit/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:R
   }
 })
 
-routeUsers.delete('/remove/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, res:Response) => {
+routeUsers.delete('/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:Request, res:Response) => {
   try {
     const {id} = req.params as {id: string}
 
