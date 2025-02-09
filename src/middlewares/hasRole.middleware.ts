@@ -7,16 +7,9 @@ interface AuthRequest extends Request {
 }
 
 export const hasRole = (roles: ROLE[]) => {
-  return  (req:AuthRequest, res:Response, next:NextFunction) => {
-
-    if (!req.user || !req.user.role) {
-      res.status(401).send({error: 'Request user not found'})
-
-      return
-    }
-
-    if (!roles.includes(req.user.role)) {
-      res.status(403).send({error: 'Access denied'})
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes(req.user?.role)) {
+      res.send({error: 'Access denied'})
 
       return
     }
@@ -24,3 +17,4 @@ export const hasRole = (roles: ROLE[]) => {
     next()
   }
 }
+

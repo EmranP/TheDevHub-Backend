@@ -1,7 +1,7 @@
 import { IUserSchema, UserModel } from "models/User.model"
 import bcrypt from 'bcrypt'
-import { Token } from "utils/token.util"
 import { Document } from "mongoose"
+import { generate } from "utils/token.util"
 
 export interface ILogin {
   token:string
@@ -22,7 +22,7 @@ export const loginUser = async (login :string, password :string):Promise<ILogin>
     throw new Error('Wrong password')
   }
 
-  const token = new Token().generateToken({id: user._id as string})
+  const token = generate({id: user._id as string})
 
 
   return { token, user }

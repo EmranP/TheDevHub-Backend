@@ -12,7 +12,7 @@ import { hasRole } from "middlewares/hasRole.middleware";
 import { mapComment } from "utils/mappingComment.util";
 import { mapPost } from "utils/mappingPost.util";
 
-const routePost = Router()
+const routePost = Router({mergeParams: true})
 
 export interface IPostAddRequstBody {
   title: string
@@ -23,9 +23,9 @@ export interface IPostAddRequstBody {
 // Get Posts
 routePost.get('/', async (req:Request, res:Response):Promise<void> => {
   try {
-    const { search = '', limit = 10, page = 1 } = req.query
+    const { search, limit, page } = req.query
 
-    const { posts, lastPage } = await getPosts(search as string, Number(limit), Number(page))
+    const { posts, lastPage } = await getPosts(search as string, limit, page)
 
     if (!posts) {
       res.status(404).send({error: "Posts not found"})
@@ -80,8 +80,8 @@ routePost.post(
     }
 
     const newPost = await addPost({
-      title,
-      content,
+      title: title,
+      content: content,
       image: imageUrl
     })
 
@@ -120,7 +120,7 @@ routePost.patch('/:id', authenticated, hasRole([ROLE.ADMIN]), async (
       {
         title,
         content,
-        imageUrl
+        image: imageUrl
       }
     )
 

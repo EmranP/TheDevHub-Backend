@@ -1,7 +1,7 @@
 import { IPostSchema } from "models/Post.model";
 import mongoose from "mongoose";
 import { mapComment } from "./mappingComment.util";
-import { ICommentSchema } from "models/Comment.model";
+// import { ICommentSchema } from "models/Comment.model";
 
 export interface IPostDTO {
   id: string;
@@ -16,13 +16,9 @@ export const mapPost = (post:IPostSchema) :IPostDTO => (
   {
     id: post.id.toString(),
     title: post.title,
-    imageUrl: post.imageUrl,
+    imageUrl: post.image as string,
     content: post.content,
-    comments: post.comments.map(comment =>
-      mongoose.isObjectIdOrHexString(comment)
-        ? null
-        : mapComment(comment as ICommentSchema)
-    ).filter((comment): comment is ReturnType<typeof mapComment> => comment !== null),
+    comments: post.comments.map(comment => mongoose.isObjectIdOrHexString(comment) ? comment : mapComment(comment)),
     publishedAt: post.createdAt,
   }
 )

@@ -11,7 +11,7 @@ export interface ICommentDTO {
 export const mapComment = (comment: ICommentSchema):ICommentDTO => (
   {
     content: comment.content,
-    author: (comment.author as Pick<IUserSchema, "login">),
+    author: comment.author.login,
     id: comment._id,
     publishedAt: comment.createdAt
   }

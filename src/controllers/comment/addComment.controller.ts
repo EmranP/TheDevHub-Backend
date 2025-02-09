@@ -7,10 +7,6 @@ interface IAddCommentRequest {
 }
 
 export const addComment = async (postId:string, comment:IAddCommentRequest):Promise<ICommentSchema> => {
-  if (!postId || !comment) {
-    throw new Error('Comment is not created!')
-  }
-
   const  newComment = await CommentModel.create(comment)
 
   await PostModel.findByIdAndUpdate(postId, {$push: {comments: newComment}})

@@ -4,7 +4,7 @@ import { Router, Request, Response } from "express";
 import { mappingUser } from "utils/mappingUser.util";
 
 
-const routeAuth = Router()
+const routeAuth = Router({ mergeParams: true })
 
 // Registore
 

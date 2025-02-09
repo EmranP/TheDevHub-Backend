@@ -4,15 +4,7 @@ import express, { NextFunction, Request, Response } from 'express'
 // Config & Middlewares
 import { connectDB } from 'config/db'
 import { defaultAppMiddleware } from 'middlewares/defaultMiddlewaresConfig'
-// Routes
-// Auth
-import routeAuth from 'routes/auth.route'
-// Users
-import routeUsers from 'routes/user.route'
-// Post
-import routePost from 'routes/post.route'
-// Roles
-import routeRoles from 'routes/user/roles.route'
+import router from 'routes/index.route'
 
 
 dotenv.config()
@@ -24,20 +16,7 @@ const PORT = process.env.PORT || 4200
 defaultAppMiddleware(app, express)
 
 // Routes =================
-
-// Auth
-app.use('/api/auth', routeAuth)
-
-// Post
-app.use('/api/posts', routePost)
-
-// Middleware Auth ===================
-
-// Users
-app.use('/api/users', routeUsers)
-
-// Roles
-app.use('/api/users/roles', routeRoles)
+app.use('/', router)
 
 
 // Глобальный обработчик ошибок
