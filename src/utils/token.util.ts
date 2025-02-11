@@ -9,6 +9,6 @@ interface IGenerateTokenProps {
 
 const sign = process.env.SECRET_KEY_JWT || ''
 
-export const generate = (data) => jwt.sign(data, sign, {expiresIn: '1h'})
+export const generate = (data) => jwt.sign(data, sign, {expiresIn: '1d'})
 
 export const verify = (token: string) => jwt.verify(token, sign)

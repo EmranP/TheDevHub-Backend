@@ -92,7 +92,7 @@ routeUsers.delete('/:id', authenticated, hasRole([ROLE.ADMIN]), async (req:Reque
 
     await deleteUser(id)
 
-    res.status(201).send({error: null})
+    res.status(202).send({error: null})
   } catch (e) {
     console.error("❌ Server Error:", e);
     res.status(500).json({ error: "Internal Server Error" });
